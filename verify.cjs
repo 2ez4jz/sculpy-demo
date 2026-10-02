@@ -1,0 +1,12 @@
+const assert = require('node:assert/strict');
+const {parse}=require('./parser.js');
+const now=new Date(2026,9,2,12);
+let r=parse('今天给 Amy 做了 bridal trial，她喜欢自然一点的妆，眼妆不要太重。婚礼是 2026 年 11 月 8 号，她妈妈可能也要做造型。',now);
+assert.equal(r.customer,'Amy');assert.equal(r.service,'Bridal Trial');assert.equal(r.weddingDate,'2026-11-08');assert.equal(r.serviceDate,'2026-10-02');assert.match(r.needs,/待确认/);assert.match(r.preferences,/眼妆轻/);
+r=parse('昨天给李娜做了活动造型。',now);assert.equal(r.customer,'李娜');assert.equal(r.serviceDate,'2026-10-01');
+r=parse('婚礼是二零二六年十一月八号',now);assert.equal(r.weddingDate,'2026-11-08');assert.equal(r.customer,'');
+r=parse('Amy 婚礼是 2026-02-30',now);assert.equal(r.weddingDate,'');
+r=parse('婚礼十一月八号',now);assert.equal(r.weddingDate,'2026-11-08');assert.match(r.dateNote,/确认/);
+r=parse('Sculpy，我今天很累',now);assert.equal(r.service,'');assert.equal(r.customer,'');assert.equal(r.preferences,'');assert.equal(r.needs,'');assert.equal(r.raw,'Sculpy，我今天很累');
+r=parse('For Amy bridal trial. Wedding November 8, 2026, natural look and light eye makeup.',now);assert.equal(r.weddingDate,'2026-11-08');assert.equal(r.customer,'Amy');
+console.log('Parser checks passed: example flow, Chinese names/dates, invalid date, missing details, raw retention.');

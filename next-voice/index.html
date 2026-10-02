@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#f3eee6">
+  <title>Sculpy · SCULP 的小助手</title>
+  <meta name="description" content="和 Sculpy 说说今天的工作，一起记住每一次用心。SCULP 内部概念演示。">
+  <link rel="icon" href="../favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="../styles.css?v=20261002-3">
+  <script src="voice-config.js" defer></script><script src="../parser.js?v=20261002-3" defer></script><script src="app.js?v=voice-1" defer></script><script src="recorder.js" defer></script>
+</head>
+<body>
+  <header class="topbar">
+    <a class="brand" href="./" aria-label="Sculpy 首页">SCULP<span class="brand-line"></span><span class="brand-name">sculpy</span></a>
+    <div class="header-tools"><label class="user-picker">我是 <select id="current-staff" aria-label="当前化妆师"><option>Miranda</option><option>Yuki</option><option>Mira</option><option>Angelina</option><option>Elaine</option><option>Giselle</option></select></label><span class="demo-label">概念演示 · v0.1</span><button id="presentation" class="quiet">投屏模式</button></div>
+  </header>
+  <main class="workspace">
+    <section class="assistant-side" aria-label="与 Sculpy 对话">
+      <div class="welcome">
+        <img src="../assets/sculpy.png" alt="奶油色的小精灵 Sculpy" class="character" width="1672" height="941">
+        <div class="welcome-copy"><span class="eyebrow">YOUR LITTLE STUDIO COMPANION</span><h1>今天也辛苦啦。</h1><p>工作里的小事，<br>心里的小事，都可以和我说。</p></div>
+        
+      </div>
+      <div class="chat-wrap">
+        <div class="section-heading"><h2>和 Sculpy 聊聊</h2><label class="voice-option"><input type="checkbox" id="speak"> 朗读回复</label></div>
+        <div id="messages" class="messages" role="log" aria-live="polite"><div class="message assistant"><span class="speaker">SCULPY</span><p>我在这里呀 ✨ 今天忙得怎么样？客人喜欢什么、你花了什么心思，或者只是有点累，都可以和我说。</p></div></div>
+        <div class="examples"><button data-example="bridal">试试：婚礼试妆</button><button data-example="event">试试：活动造型</button><button id="guide-button">演示台词</button></div>
+        <form id="chat-form" class="composer">
+          <label class="sr-only" for="input">工作记录</label><textarea id="input" placeholder="输入今天的工作或心情，也可以点击上方示例" rows="3" maxlength="4000"></textarea>
+          <div class="composer-actions"><div class="record-controls"><button type="button" id="mic" class="mic" aria-label="开始语音输入"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><rect x="9" y="2" width="6" height="12" rx="3"/><path d="M5 10v2a7 7 0 0 0 14 0v-2M12 19v3M8 22h8"/></svg><span id="mic-label">点击说话</span></button><select id="language" aria-label="语音识别语言"><option value="zh-CN">中文</option><option value="en-CA">English</option></select></div><button type="submit" id="send" class="primary">告诉 Sculpy <span aria-hidden="true">✦</span></button></div>
+        </form>
+        <div id="audio-review" hidden><audio id="audio-preview" controls aria-label="回听这段录音" style="max-width:100%;margin-top:12px"></audio><button id="retry-audio" type="button" class="quiet" hidden>重试转写</button></div><p id="status" class="status" role="status">整段录音转写待连接语音服务；整理和回复仍为演示规则。</p>
+      </div>
+    </section>
+    <aside class="records-side" aria-label="当天的工作场次">
+      <div class="record-top"><span class="eyebrow">YOUR DAY AT SCULP</span><h2 id="day-heading">Miranda 的今天</h2><label class="day-picker">日期 <input type="date" id="day" required></label></div>
+      <p class="day-summary" id="day-summary">今天还没有场次。慢慢来，我陪你。</p>
+      <div id="sessions" class="sessions" aria-live="polite"></div>
+      <div class="day-footer"><p>记住客户，也记住你的努力。</p><button id="reset" class="quiet">重置演示</button></div>
+      <p class="local-note">场次按所选日期与化妆师显示，仅保存在本机。</p>
+    </aside>
+  </main>
+  <dialog id="guide"><div class="dialog-heading"><h2>和 Sculpy 说说话</h2><button id="close-guide" class="quiet">关闭</button></div><p class="guide-script">“Sculpy，今天给 Amy 做了 bridal trial，她喜欢自然一点的妆，眼妆不要太重。婚礼是 2026 年 11 月 8 号，她妈妈可能也要做造型。今天真的有点累。”</p><ol><li>选好化妆师和日期。</li><li>点击说话，说完再点停止，然后点「告诉 Sculpy」。</li><li>Sculpy 回应你，工作场次自动出现在右侧；需要时再展开修改。</li></ol><p>也可以只说：“今天好累，感觉自己做得不够好。” Sculpy 会陪你聊，不会凭空增加一场工作。</p><p class="guide-limit">概念 Demo：整段录音经语音 API 转写、预设规则回复、本机保存；尚未连接 GPT 或公司后台。请使用虚构客户资料。</p></dialog>
+  <div id="toast" class="toast" role="status" hidden></div>
+</body></html>

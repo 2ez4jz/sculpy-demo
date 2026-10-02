@@ -2,7 +2,7 @@
 <html lang="zh-CN">
 <head>
   <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="theme-color" content="#722f46">
+  <meta name="theme-color" content="#f3eee6">
   <title>Sculpy · SCULP 的小助手</title>
   <meta name="description" content="和 Sculpy 说说今天的工作，一起记住每一次用心。SCULP 内部概念演示。">
   <link rel="icon" href="favicon.svg" type="image/svg+xml">
@@ -12,45 +12,34 @@
 <body>
   <header class="topbar">
     <a class="brand" href="./" aria-label="Sculpy 首页">SCULP<span class="brand-line"></span><span class="brand-name">sculpy</span></a>
-    <div class="header-tools"><span class="demo-label">概念演示 · v0.1</span><button id="presentation" class="quiet">投屏模式</button></div>
+    <div class="header-tools"><label class="user-picker">我是 <select id="current-staff" aria-label="当前化妆师"><option>Miranda</option><option>Yuki</option><option>Mira</option><option>Angelina</option><option>Elaine</option><option>Giselle</option></select></label><span class="demo-label">概念演示 · v0.1</span><button id="presentation" class="quiet">投屏模式</button></div>
   </header>
   <main class="workspace">
     <section class="assistant-side" aria-label="与 Sculpy 对话">
       <div class="welcome">
         <img src="assets/sculpy.png" alt="奶油色的小精灵 Sculpy" class="character" width="1672" height="941">
-        <div class="welcome-copy"><span class="eyebrow">YOUR LITTLE STUDIO COMPANION</span><h1>今天也辛苦啦。</h1><p>说说今天的工作，<br>剩下的交给 Sculpy。</p></div>
-        <span class="image-caption">meet sculpy.</span>
+        <div class="welcome-copy"><span class="eyebrow">YOUR LITTLE STUDIO COMPANION</span><h1>今天也辛苦啦。</h1><p>工作里的小事，<br>心里的小事，都可以和我说。</p></div>
+        
       </div>
       <div class="chat-wrap">
         <div class="section-heading"><h2>和 Sculpy 聊聊</h2><label class="voice-option"><input type="checkbox" id="speak"> 朗读回复</label></div>
-        <div id="messages" class="messages" role="log" aria-live="polite"><div class="message assistant"><span class="speaker">SCULPY</span><p>我在这里 ✨ 客人喜欢什么、今天做了什么，都可以告诉我。我会整理成一张记录卡，等你确认。</p></div></div>
+        <div id="messages" class="messages" role="log" aria-live="polite"><div class="message assistant"><span class="speaker">SCULPY</span><p>我在这里呀 ✨ 今天忙得怎么样？客人喜欢什么、你花了什么心思，或者只是有点累，都可以和我说。</p></div></div>
         <div class="examples"><button data-example="bridal">试试：婚礼试妆</button><button data-example="event">试试：活动造型</button><button id="guide-button">演示台词</button></div>
         <form id="chat-form" class="composer">
           <label class="sr-only" for="input">工作记录</label><textarea id="input" placeholder="今天给 Amy 做了 bridal trial，她喜欢自然一点的妆……" rows="3" maxlength="4000"></textarea>
-          <div class="composer-actions"><div class="record-controls"><button type="button" id="mic" class="mic" aria-label="开始语音输入"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><rect x="9" y="2" width="6" height="12" rx="3"/><path d="M5 10v2a7 7 0 0 0 14 0v-2M12 19v3M8 22h8"/></svg><span id="mic-label">点击说话</span></button><select id="language" aria-label="语音识别语言"><option value="zh-CN">中文</option><option value="en-CA">English</option></select></div><button type="submit" id="send" class="primary">整理记录 <span aria-hidden="true">✦</span></button></div>
+          <div class="composer-actions"><div class="record-controls"><button type="button" id="mic" class="mic" aria-label="开始语音输入"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><rect x="9" y="2" width="6" height="12" rx="3"/><path d="M5 10v2a7 7 0 0 0 14 0v-2M12 19v3M8 22h8"/></svg><span id="mic-label">点击说话</span></button><select id="language" aria-label="语音识别语言"><option value="zh-CN">中文</option><option value="en-CA">English</option></select></div><button type="submit" id="send" class="primary">告诉 Sculpy <span aria-hidden="true">✦</span></button></div>
         </form>
         <p id="status" class="status" role="status">语音由浏览器转写；整理与回复使用演示规则，尚未连接 GPT。</p>
       </div>
     </section>
-    <aside class="records-side" aria-label="工作记录预览">
-      <div class="record-top"><div><span class="eyebrow">SCULP RECORDS</span><h2>每一次用心，都留下来。</h2></div><span class="local-badge">本机演示记录</span></div>
-      <div class="metrics"><div><strong id="count">0</strong><span>已存记录</span></div><div><strong id="followup-count">0</strong><span>潜在后续</span></div><div><strong id="draft-count">0</strong><span>待确认</span></div></div>
-      <div id="empty" class="empty"><span class="empty-symbol" aria-hidden="true">✦</span><h3>一段话，一张记录。</h3><p>告诉 Sculpy 今天的客户，<br>整理好的信息会出现在这里。</p></div>
-      <form id="record-form" class="record-card" hidden>
-        <div class="card-heading"><span id="record-state" class="record-state">待你确认</span><span id="record-number">WORK LOG</span></div>
-        <label class="field name-field">客户姓名<input id="customer" required maxlength="100" placeholder="请输入客户姓名"></label>
-        <div class="field-grid"><label class="field">服务项目<select id="service"><option value="">待补充</option><option>Bridal Trial</option><option>Wedding-day Styling</option><option>Event Styling</option><option>Photoshoot Styling</option><option>Personal Styling</option></select></label><label class="field">负责人<select id="staff"><option>Miranda</option><option>Yuki</option><option>Mira</option><option>Angelina</option><option>Elaine</option><option>Giselle</option><option>其他</option></select></label><label class="field">服务日期<input type="date" id="service-date" required></label><label class="field">婚礼日期<input type="date" id="wedding-date"></label></div>
-        <label class="field">客户偏好<textarea id="preferences" rows="2" placeholder="没有提到的内容，留空即可" maxlength="1000"></textarea></label>
-        <label class="field">潜在后续<textarea id="needs" rows="2" placeholder="例如：妈妈造型、公司年会" maxlength="1000"></textarea></label>
-        <details class="original"><summary>查看原始输入</summary><p id="raw-text"></p></details>
-        <p id="missing" class="missing"></p>
-        <button id="save" type="submit" class="save">确认并保存</button>
-        <p class="save-note">保存在当前浏览器，不会写入公司后台。</p>
-      </form>
-      <div class="history-heading"><h3>最近的记录</h3><button id="reset" class="quiet light">重置演示</button></div><div id="history" class="history"><p class="history-empty">还没有记录，等你来写第一条。</p></div>
-      <p class="records-footer">记住客户，也记住你的努力。</p>
+    <aside class="records-side" aria-label="当天的工作场次">
+      <div class="record-top"><span class="eyebrow">YOUR DAY AT SCULP</span><h2 id="day-heading">Miranda 的今天</h2><label class="day-picker">日期 <input type="date" id="day" required></label></div>
+      <p class="day-summary" id="day-summary">今天还没有场次。慢慢来，我陪你。</p>
+      <div id="sessions" class="sessions" aria-live="polite"></div>
+      <div class="day-footer"><p>记住客户，也记住你的努力。</p><button id="reset" class="quiet">重置演示</button></div>
+      <p class="local-note">场次按所选日期与化妆师显示，仅保存在本机。</p>
     </aside>
   </main>
-  <dialog id="guide"><div class="dialog-heading"><h2>现场可以这样说</h2><button id="close-guide" class="quiet">关闭</button></div><p class="guide-script">“Sculpy，今天给 Amy 做了 bridal trial，她喜欢自然一点的妆，眼妆不要太重。婚礼是 2026 年 11 月 8 号，她妈妈可能也要做造型。”</p><ol><li>点「点击说话」，首次使用允许麦克风。</li><li>说完再点一次，检查转写后点「整理记录」。</li><li>确认右侧信息，再点「确认并保存」。</li></ol><p>麦克风不可用时，点「试试：婚礼试妆」使用示例文字。Chrome 桌面版优先；语音识别可能需要网络。识别内容可能由浏览器供应商处理。</p><p class="guide-limit">这是一款预设概念 Demo：真实语音转写 + 演示规则整理 + 本机保存。请使用虚构客户资料；没有员工登录、图片识别、GPT 或公司数据库连接。</p></dialog>
+  <dialog id="guide"><div class="dialog-heading"><h2>和 Sculpy 说说话</h2><button id="close-guide" class="quiet">关闭</button></div><p class="guide-script">“Sculpy，今天给 Amy 做了 bridal trial，她喜欢自然一点的妆，眼妆不要太重。婚礼是 2026 年 11 月 8 号，她妈妈可能也要做造型。今天真的有点累。”</p><ol><li>选好化妆师和日期。</li><li>点击说话，说完再点停止，然后点「告诉 Sculpy」。</li><li>Sculpy 回应你，工作场次自动出现在右侧；需要时再展开修改。</li></ol><p>也可以只说：“今天好累，感觉自己做得不够好。” Sculpy 会陪你聊，不会凭空增加一场工作。</p><p class="guide-limit">概念 Demo：浏览器真实语音转写、预设规则回复、本机保存；尚未连接 GPT 或公司后台。请使用虚构客户资料。</p></dialog>
   <div id="toast" class="toast" role="status" hidden></div>
 </body></html>
